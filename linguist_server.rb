@@ -5,6 +5,11 @@ require 'json'
 STDOUT.sync = true
 @work = true
 
+def show_error(message)
+  STDOUT.write(JSON.dump({error: true, message: message}))
+  STDOUT.write("\n")
+end
+
 # tbd: handle gracefull shutdown
 loop do
   break unless @work
@@ -20,9 +25,11 @@ loop do
 
   begin
     rugged = Rugged::Repository.new(line)
-  rescue Rugged::OSError, Rugged::RepositoryError
-    STDOUT.write(JSON.dump({error: true}))
-    STDOUT.write("\n")
+  rescue Rugged::OSError
+    show_error('rugged OS Error')
+    next
+  rescue Rugged::RepositoryError
+    show_error('rugged Repository Error')
     next
   end
 
