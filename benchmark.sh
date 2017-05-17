@@ -7,6 +7,8 @@ for i in range(100):
   print(write_to_process(popen, b'../linguist\n'))
 " > /dev/null
 
+echo
+echo
 
 echo "==> Benchmarking long-running subprocess with IPC..."
 time python -c "
