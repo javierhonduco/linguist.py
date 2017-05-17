@@ -1,6 +1,6 @@
 echo "==> Benchmarking on demand process spawning..."
 time python -c "
-from main import popen_helper, write_to_process, ruby_binary
+from client import popen_helper, write_to_process, ruby_binary
 
 for i in range(100):
   popen = popen_helper(ruby_binary())
@@ -12,7 +12,7 @@ echo
 
 echo "==> Benchmarking long-running subprocess with IPC..."
 time python -c "
-from main import popen_helper, write_to_process, ruby_binary
+from client import popen_helper, write_to_process, ruby_binary
 
 popen = popen_helper(ruby_binary())
 for i in range(100):
