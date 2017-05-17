@@ -5,16 +5,15 @@ import json
 
 def write_to_process(process, data):
     process.stdin.write(data)
-    process.stdin.write(b'\n')
-    process.stdin.flush()
+    process.stdin.write('\n')
 
     read_line = process.stdout.readline()
-    read_line = read_line.strip().decode()
+    read_line = read_line.strip()
 
     return json.loads(read_line)
 
 def popen_helper(ruby_binary):
-    return Popen([ruby_binary, 'linguist_server.rb'], stdin=PIPE, stdout=PIPE)
+    return Popen([ruby_binary, 'linguist_server.rb'], stdin=PIPE, stdout=PIPE, bufsize=1, universal_newlines=True)
 
 default_ruby_binary = '/Users/javierhonduco/.rbenv/shims/ruby'
 
@@ -23,4 +22,4 @@ def ruby_binary():
 
 if __name__ == '__main__':
     popen = popen_helper(ruby_binary())
-    print(write_to_process(popen, b'../linguist\n'))
+    print(write_to_process(popen, '../linguist\n'))
