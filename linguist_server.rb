@@ -3,11 +3,18 @@ require 'rugged'
 require 'json'
 
 STDOUT.sync = true
+@work = true
 
 # tbd: handle gracefull shutdown
 loop do
+  break unless @work
   # tbd: EOF error when we are finished
-  line = STDIN.readline.chomp
+  begin
+    line = STDIN.readline.chomp
+  rescue EOFError
+    @work = false
+    break
+  end
 
   next if line.empty?
 
