@@ -1,3 +1,6 @@
+# improve this
+trap 'exit -1' INT
+
 echo "==> Benchmarking on demand process spawning..."
 time python -c "
 from client import popen_helper, write_to_process, ruby_binary
