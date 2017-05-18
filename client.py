@@ -1,7 +1,8 @@
 from subprocess import Popen, PIPE
 import os
 import json
-
+import signal
+import sys
 
 def write_to_process(process, data):
     process.stdin.write(data)
@@ -13,7 +14,17 @@ def write_to_process(process, data):
     return json.loads(read_line)
 
 def popen_helper(ruby_binary):
-    return Popen([ruby_binary, 'linguist_server.rb'], stdin=PIPE, stdout=PIPE, bufsize=1, universal_newlines=True)
+    p = Popen([ruby_binary, 'linguist_server.rb'], stdin=PIPE, stdout=PIPE, bufsize=1, universal_newlines=True)
+
+    def sigint_handler(signal, frame):
+        print('[info] about to kill child with pid={}'.format(p.pid))
+        os.kill(p.pid, 9)
+        print('[info] exiting...')
+        sys.exit(0)
+
+    signal.signal(signal.SIGINT, sigint_handler)
+
+    return p
 
 default_ruby_binary = '/Users/javierhonduco/.rbenv/shims/ruby'
 

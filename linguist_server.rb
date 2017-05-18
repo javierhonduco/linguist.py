@@ -5,8 +5,13 @@ require 'json'
 STDOUT.sync = true
 @work = true
 
-def show_error(message)
+def send_error(message)
   STDOUT.write(JSON.dump({error: true, message: message}))
+  STDOUT.write("\n")
+end
+
+def send_data(data)
+  STDOUT.write(JSON.dump(data))
   STDOUT.write("\n")
 end
 
@@ -26,10 +31,10 @@ loop do
   begin
     rugged = Rugged::Repository.new(line)
   rescue Rugged::OSError
-    show_error('rugged OS Error')
+    send_error('rugged OS Error')
     next
   rescue Rugged::RepositoryError
-    show_error('rugged Repository Error')
+    send_error('rugged Repository Error')
     next
   end
 
@@ -40,6 +45,5 @@ loop do
     breakdown: repo.breakdown_by_file,
   }
 
-  STDOUT.write(JSON.dump(output))
-  STDOUT.write("\n")
+  send_data(output)
 end
