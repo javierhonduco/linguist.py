@@ -2,5 +2,8 @@
 
 set -e
 
-echo "==> Installing linguist"
-gem install github-linguist
+echo "==> Installing gems"
+gem install github-linguist rubocop
+
+echo "==> Installing Python dependencies"
+pip install pep8

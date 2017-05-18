@@ -1,0 +1,6 @@
+#!/bin/sh
+
+echo "==> Running pep8"
+pep8 .
+echo "==> Running Rubocop"
+rubocop .
