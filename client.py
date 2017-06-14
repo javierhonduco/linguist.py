@@ -5,6 +5,9 @@ import signal
 import sys
 
 
+def classify(process, path):
+    return write_to_process(process, path)
+
 def write_to_process(process, data):
     process.stdin.write(data)
     process.stdin.write('\n')
