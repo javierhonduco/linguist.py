@@ -4,6 +4,7 @@ import json
 import signal
 import sys
 
+
 def write_to_process(process, data):
     process.stdin.write(data)
     process.stdin.write('\n')
